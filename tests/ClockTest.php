@@ -148,9 +148,14 @@ class ClockTest extends TestCase
             'Int timestamp explicit' => [1711475822, new DateTimeImmutable('2024-03-26T17:57:02.000000+0000')],
             // 'Float timestamp' => [1711475822.123456, new DateTimeImmutable('@1711475822.123456')],
             'Float timestamp as @string' => ['@1711475822.123456', new DateTimeImmutable('@1711475822.123456')],
-            'DateTime literal' => [new DateTime('2019-04-12T13:05:27.5216Z'), new DateTimeImmutable('2019-04-12T13:05:27.5216Z')],
-            'DateTimeImmutable literal' => [new DateTimeImmutable('2019-04-12T13:05:27.5216Z'), new DateTimeImmutable('2019-04-12T13:05:27.5216Z')],
-
+            'DateTime literal' => [
+                new DateTime('2019-04-12T13:05:27.5216Z'),
+                new DateTimeImmutable('2019-04-12T13:05:27.5216Z'),
+            ],
+            'DateTimeImmutable literal' => [
+                new DateTimeImmutable('2019-04-12T13:05:27.5216Z'),
+                new DateTimeImmutable('2019-04-12T13:05:27.5216Z'),
+            ],
         ];
     }
 
