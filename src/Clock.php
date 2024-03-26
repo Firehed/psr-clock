@@ -104,7 +104,7 @@ class Clock implements ClockInterface
                 return new DateTimeImmutable($time);
             }
         } else {
-            assert(is_int($time) || is_float($time));
+            assert(is_int($time) || is_float($time)); // @phpstan-ignore-line Be extra safe
             // Treat as unixtime
             return new DateTimeImmutable('@' . $time);
         }
