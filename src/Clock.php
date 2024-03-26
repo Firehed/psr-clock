@@ -17,7 +17,8 @@ use function is_string;
 /**
  * PSR-20 Clock implementation, with optional support for overriding the wall
  * time. The override behavior is intended only for test cases and local
- * development (i.e. manual testing).
+ * development (i.e. manual testing), and attempting to use it on a wall clock
+ * will throw a BadMethodCallException.
  */
 class Clock implements ClockInterface
 {
@@ -42,10 +43,14 @@ class Clock implements ClockInterface
      *
      * - Ints or floats will be intrepreted as a Unix timestamp and use that
      * for a fixed clock.
+     *
+     * CAUTION: while floats can be used to express fractions of a second, they
+     * _can_ and _often will_ lose precision
      */
     public function __construct(DateTimeInterface|string|int|float|DateInterval|null $time = null)
     {
         if ($time === null) {
+            $this->now = null;
         } else {
             $parsed = self::parse($time);
             if ($parsed instanceof DateTimeImmutable) {

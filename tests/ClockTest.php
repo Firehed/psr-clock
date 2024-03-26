@@ -71,7 +71,28 @@ class ClockTest extends TestCase
         self::assertSame($dt->getTimestamp(), $now->getTimestamp());
     }
 
+    /**
+     * @dataProvider absoluteInputs
+     */
+    public function testConstructWithAbsoluteInput($input, DateTimeImmutable $expected): void
+    {
+        $clock = new Clock($input);
+        self::assertEquals($expected, $clock->now());
+    }
+
     // Provide number as input: should treat as unixtime
     // Provide DateInterval as input: should offset relative to current time
     // public function testDateInterval
+    //
+    public static function absoluteInputs(): array
+    {
+        return [
+            'Date only' => ['2020-03-14', new DateTimeImmutable('2020-03-14')],
+            'Int timestamp' => [1711475822, new DateTimeImmutable('@1711475822')],
+            'Int timestamp explicit' => [1711475822, new DateTimeImmutable('2024-03-26T17:57:02.000000+0000')],
+            // 'Float timestamp' => [1711475822.123456, new DateTimeImmutable('@1711475822.123456')],
+            'Float timestamp as @string' => ['@1711475822.123456', new DateTimeImmutable('@1711475822.123456')],
+
+        ];
+    }
 }
