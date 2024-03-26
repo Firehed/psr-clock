@@ -17,6 +17,8 @@ It advances normally and behavies identically to calling `time()` or `new DateTi
 **This is what you should use in actual application code.**
 
 ```php
+use Firehed\Clock\Clock;
+
 $clock = new Clock();
 ```
 
@@ -32,6 +34,8 @@ This is intended for use in test cases, such as:
 Basically, if you'd normally have to use `sleep()` to check something, you can instead move the test clock by a specificed amount or to a specified time and continue the test case _as if_ that time had passed.
 
 ```php
+use Firehed\Clock\Clock;
+
 $clock = new Clock($timeOrOffset);
 
 // ...
