@@ -45,13 +45,13 @@
     },
     "scripts": {
         "test": [
-            "@phpunit",
-            "@phpstan",
+            "@unit",
+            "@analyze",
             "@phpcs"
         ],
         "autofix": "phpcbf",
-        "phpunit": "phpunit",
-        "phpstan": "phpstan analyse",
+        "unit": "phpunit",
+        "analyze": "phpstan analyse",
         "phpstan-baseline": "phpstan analyse --generate-baseline",
         "phpcs": "phpcs"
     }
