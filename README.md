@@ -2,6 +2,11 @@
 
 A [PSR-20](https://www.php-fig.org/psr/psr-20/) Clock implementation, with time configuration and movement support for use in unit tests.
 
+[![Test](https://github.com/Firehed/psr-clock/actions/workflows/test.yml/badge.svg)](https://github.com/Firehed/psr-clock/actions/workflows/test.yml)
+[![Static analysis](https://github.com/Firehed/psr-clock/actions/workflows/static-analysis.yml/badge.svg)](https://github.com/Firehed/psr-clock/actions/workflows/static-analysis.yml)
+[![Lint](https://github.com/Firehed/psr-clock/actions/workflows/lint.yml/badge.svg)](https://github.com/Firehed/psr-clock/actions/workflows/lint.yml)
+[![codecov](https://codecov.io/gh/Firehed/psr-clock/graph/badge.svg?token=YHmKp3PzwF)](https://codecov.io/gh/Firehed/psr-clock)
+
 ## Installation
 ```
 composer require firehed/clock
