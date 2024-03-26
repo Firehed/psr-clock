@@ -31,6 +31,8 @@ This is intended for use in test cases, such as:
 - Ensuring that expiration behavior works as expected
 - Verifying rate-limiting behavior
 
+It is permissable to use a test clock in real, non-test application code, but should be done with extreme caution.
+
 Basically, if you'd normally have to use `sleep()` to check something, you can instead move the test clock by a specificed amount or to a specified time and continue the test case _as if_ that time had passed.
 
 ```php
@@ -67,3 +69,8 @@ Relative time always uses `DateTimeImmutable->add()` or the equivalent.
 To move the clock backwards:
 - Pass a `DateInterval` where `invert` is set to `1`
 - Pass any absolute timestamp equivalent before the current value
+
+### Time Zones
+
+This library does not currently aim to handle any time zone specifics, and will default to the system configuration.
+If your needs include specific behavior regarding time zones, be sure to provide values that include time zone information.
