@@ -77,8 +77,10 @@ class ClockTest extends TestCase
     /**
      * @dataProvider absoluteInputs
      */
-    public function testConstructWithAbsoluteInput(DateTimeInterface|string|float $input, DateTimeImmutable $expected): void
-    {
+    public function testConstructWithAbsoluteInput(
+        DateTimeInterface|string|float $input,
+        DateTimeImmutable $expected,
+    ): void {
         $clock = new Clock($input);
         self::assertEquals($expected, $clock->now());
         self::assertNotSame($expected, $clock->now(), 'Should not return same instance from construct');
@@ -87,8 +89,10 @@ class ClockTest extends TestCase
     /**
      * @dataProvider relativeInputs
      */
-    public function testConstructWithRelativeInput(DateInterval|string $input, DateInterval $expectedOffset): void
-    {
+    public function testConstructWithRelativeInput(
+        DateInterval|string $input,
+        DateInterval $expectedOffset,
+    ): void {
         $now = new DateTimeImmutable();
         $clock = new Clock($input);
         $expected = $now->add($expectedOffset);
@@ -99,8 +103,10 @@ class ClockTest extends TestCase
     /**
      * @dataProvider absoluteInputs
      */
-    public function testMovingTestClockToAbsoluteTime(DateTimeInterface|string|float $input, DateTimeImmutable $expected): void
-    {
+    public function testMovingTestClockToAbsoluteTime(
+        DateTimeInterface|string|float $input,
+        DateTimeImmutable $expected,
+    ): void {
         $clock = new Clock('now');
         $beforeMoving = $clock->now();
         $clock->moveTo($input);
@@ -111,8 +117,10 @@ class ClockTest extends TestCase
     /**
      * @dataProvider relativeInputs
      */
-    public function testMovingTestClockWithRelativeInput(DateInterval|string $input, DateInterval $expectedOffset): void
-    {
+    public function testMovingTestClockWithRelativeInput(
+        DateInterval|string $input,
+        DateInterval $expectedOffset,
+    ): void {
         $now = new DateTimeImmutable();
         $clock = new Clock($now);
         $beforeMoving = $clock->now();
