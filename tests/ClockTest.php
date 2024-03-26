@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Firehed\Clock;
 
-use DateTime;
 use DateInterval;
+use DateTime;
 use DateTimeImmutable;
+use DateTimeInterface;
 use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -76,7 +77,7 @@ class ClockTest extends TestCase
     /**
      * @dataProvider absoluteInputs
      */
-    public function testConstructWithAbsoluteInput(mixed $input, DateTimeImmutable $expected): void
+    public function testConstructWithAbsoluteInput(DateTimeInterface|string|float $input, DateTimeImmutable $expected): void
     {
         $clock = new Clock($input);
         self::assertEquals($expected, $clock->now());
@@ -86,7 +87,7 @@ class ClockTest extends TestCase
     /**
      * @dataProvider relativeInputs
      */
-    public function testConstructWithRelativeInput(mixed $input, DateInterval $expectedOffset): void
+    public function testConstructWithRelativeInput(DateInterval|string $input, DateInterval $expectedOffset): void
     {
         $now = new DateTimeImmutable();
         $clock = new Clock($input);
@@ -98,7 +99,7 @@ class ClockTest extends TestCase
     /**
      * @dataProvider absoluteInputs
      */
-    public function testMovingTestClockToAbsoluteTime(mixed $input, DateTimeImmutable $expected): void
+    public function testMovingTestClockToAbsoluteTime(DateTimeInterface|string|float $input, DateTimeImmutable $expected): void
     {
         $clock = new Clock('now');
         $beforeMoving = $clock->now();
@@ -110,7 +111,7 @@ class ClockTest extends TestCase
     /**
      * @dataProvider relativeInputs
      */
-    public function testMovingTestClockWithRelativeInput(mixed $input, DateInterval $expectedOffset): void
+    public function testMovingTestClockWithRelativeInput(DateInterval|string $input, DateInterval $expectedOffset): void
     {
         $now = new DateTimeImmutable();
         $clock = new Clock($now);
@@ -128,10 +129,9 @@ class ClockTest extends TestCase
         $clock->moveTo('PT1S');
     }
 
-    // Provide number as input: should treat as unixtime
-    // Provide DateInterval as input: should offset relative to current time
-    // public function testDateInterval
-    //
+    /**
+     * @return array{string|int|float|DateTimeInterface, DateTimeImmutable}[]
+     */
     public static function absoluteInputs(): array
     {
         return [
@@ -146,6 +146,9 @@ class ClockTest extends TestCase
         ];
     }
 
+    /**
+     * @return array{string|DateInterval, DateInterval}[]
+     */
     public static function relativeInputs(): array
     {
         return [
