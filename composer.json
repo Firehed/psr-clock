@@ -1,13 +1,13 @@
 {
-    "name": "your/library",
-    "description": "Description of your library",
+    "name": "firehed/clock",
+    "description": "PSR-20 Clock implementation",
     "keywords": [],
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "you@example.com"
+            "name": "Eric Stern",
+            "email": "eric@ericstern.com"
         }
     ],
     "config": {
@@ -16,16 +16,17 @@
     },
     "autoload": {
         "psr-4": {
-            "Your\\Library\\": "src"
+            "Firehed\\Clock\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Your\\Library\\": "tests"
+            "Firehed\\Clock\\": "tests"
         }
     },
     "require": {
-        "php": "^7.4 || ^8.0"
+        "php": "^7.4 || ^8.0",
+        "psr/clock": "^1.0"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^2.0 || ^3.0 || ^4.0",
@@ -35,6 +36,9 @@
         "phpstan/phpstan-strict-rules": "^1.0",
         "phpunit/phpunit": "^9.3",
         "squizlabs/php_codesniffer": "^3.5"
+    },
+    "provide": {
+        "psr/clock-implementation": "^1.0"
     },
     "conflict": {
         "nikic/php-parser": "<v4.12"
