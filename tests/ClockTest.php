@@ -9,6 +9,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use LogicException;
+use Psr\Clock\ClockInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -22,6 +23,7 @@ class ClockTest extends TestCase
         $now = new DateTimeImmutable();
 
         $clock = new Clock();
+        self::assertInstanceOf(ClockInterface::class, $clock); // @phpstan-ignore-line
         $now1 = $clock->now();
         usleep(1);
         $now2 = $clock->now();
@@ -40,6 +42,7 @@ class ClockTest extends TestCase
         $now = new DateTimeImmutable();
 
         $clock = new Clock('now');
+        self::assertInstanceOf(ClockInterface::class, $clock); // @phpstan-ignore-line
         $now1 = $clock->now();
         $now2 = $clock->now();
         self::assertSame($now1, $now2);
