@@ -1,19 +1,65 @@
-# php-library-template
-Repository template for PHP libraries. Sets up composer, CI with Github Actions, and more.
+# Clock
 
-## Git
-- Configures `.gitignore` for common excludes in a PHP library
+A PSR-20 clock implementation, with time configuration and movement support for use in unit tests.
 
-## Composer
-- Placeholders for library name, description, and PSR-4 autoloading
-- Scripts for testing
-- Requires current version of PHP
-- Includes testing tools (configured) as dev dependencies
+## Installation
+```
+composer require firehed/clock
+```
 
-## Testing and CI
-CI is configured using Github Actions.
+## Usage
 
-- PHPUnit `^9.3` with default configuration (`src`/`tests`).
-- The tests workflow uses a build matrix to test against multiple versions of PHP, and with high and low Composer dependencies installed
-- PHPStan with strict ruleset, max level, and the PHPUnit extension
-- PHP Code Sniffer configured with PSR-12
+### Wall Clock
+
+A wall clock will return the current system time any time `->now()` is called.
+It advances normally and behavies identically to calling `time()` or `new DateTimeImmutable()` directly would.
+
+**This is what you should use in actual application code.**
+
+```php
+$clock = new Clock();
+```
+
+### Test Clock
+
+A test clock will return a specified time, and can be moved.
+This is intended for use in test cases, such as:
+
+- Validating or adjusting date ranges in queries
+- Ensuring that expiration behavior works as expected
+- Verifying rate-limiting behavior
+
+Basically, if you'd normally have to use `sleep()` to check something, you can instead move the test clock by a specificed amount or to a specified time and continue the test case _as if_ that time had passed.
+
+```php
+$clock = new Clock($timeOrOffset);
+
+// ...
+
+$clock->moveTo($otherTimeOrOffset);
+```
+
+The behavior of `$timeOrOffset` and `$otherTimeOrOffset` is as follows:
+
+Type | `__construct` Behavior | `moveTo()` behavior
+--- | --- | ---
+`DateTimeInterface` | The clock will be fixed to the specified time | The clock will move to the specified time
+`DateInterval` | The clock will be fixed to the system time _when construct is called_, plus the offset | The clock will advance by the offset from its initial fixed time
+`string` that starts with `P` | The string will be parsed as a `DateInterval` and behave as above | Same
+`string` | The clock will be fixed to an equivalent of `strtotime(string)` | Same
+`int` or `float` | The value will be interpreted as a Unix timestamp and fixed to that time | Same
+
+> [!WARNING]
+> `float` values can _and often do_ lose precision at timestamps near the current time.
+> If your test needs sub-second behavior, prefer any of the more-specific formats.
+
+> [!TIP]
+> Unixtime strings avoid floating point precision issues.
+> These are `@` followed by the timestamp; e.g. `'@1234567890.987654'`
+
+#### Moving the clock backwards
+Relative time always uses `DateTimeImmutable->add()` or the equivalent.
+
+To move the clock backwards:
+- Pass a `DateInterval` where `invert` is set to `1`
+- Pass any absolute timestamp equivalent before the current value
